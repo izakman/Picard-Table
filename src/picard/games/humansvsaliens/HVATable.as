@@ -1,8 +1,8 @@
-package games.humansvsaliens
+package picard.games.humansvsaliens
 {
-	import games.GameTable;
-	import games.humansvsaliens.HVACardFactory;
-	import games.humansvsaliens.cards.HVACard;
+	import picard.GameTable;
+	import picard.games.humansvsaliens.HVACardFactory;
+	import picard.games.humansvsaliens.cards.HVACard;
 
 	public class HVATable extends GameTable {
 		

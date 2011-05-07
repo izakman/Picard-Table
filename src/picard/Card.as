@@ -1,11 +1,11 @@
-package games
+package picard
 {
 	import com.transmote.flar.marker.FLARMarker;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.Timer;
-	import games.timers.CardTimer;
+	import picard.timers.CardTimer;
 
 	public class Card extends Sprite {
 		
@@ -30,7 +30,7 @@ package games
 		
 		public function replaceMarker(marker:FLARMarker):void {
 			this.cardMarker = marker;
-			//this.updateLocation();
+			//TODO: Add a tranistion to the new marker
 		}
 		
 		public function get marker():FLARMarker {

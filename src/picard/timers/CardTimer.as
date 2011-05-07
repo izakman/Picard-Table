@@ -1,8 +1,8 @@
-package games.timers
+package picard.timers
 {
 	import flash.utils.Timer;
 	
-	import games.Card;
+	import picard.Card;
 	
 	public class CardTimer extends Timer {
 		

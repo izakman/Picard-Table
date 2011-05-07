@@ -1,8 +1,8 @@
-package games.events
+package picard.events
 {
 	import flash.events.Event;
 	
-	import games.Card;
+	import picard.Card;
 	
 	public class CardEvent extends Event {
 		

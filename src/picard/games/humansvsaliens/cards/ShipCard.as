@@ -1,4 +1,4 @@
-package games.humansvsaliens.cards
+package picard.games.humansvsaliens.cards
 {
 	import com.transmote.flar.marker.FLARMarker;
 	

@@ -1,12 +1,12 @@
-package games.humansvsaliens
+package picard.games.humansvsaliens
 {
 	import com.transmote.flar.marker.FLARMarker;
 	
-	import games.Card;
-	import games.ICardFactory;
-	import games.humansvsaliens.cards.HVACard;
-	import games.humansvsaliens.cards.ShipCard;
-	import games.humansvsaliens.cards.PowerCard;
+	import picard.Card;
+	import picard.ICardFactory;
+	import picard.games.humansvsaliens.cards.HVACard;
+	import picard.games.humansvsaliens.cards.ShipCard;
+	import picard.games.humansvsaliens.cards.PowerCard;
 	
 	public class HVACardFactory implements ICardFactory {
 		

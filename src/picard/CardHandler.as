@@ -1,4 +1,4 @@
-package games
+package picard
 {
 	import com.transmote.flar.FLARManager;
 	import com.transmote.flar.marker.FLARMarker;
@@ -9,8 +9,8 @@ package games
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	
-	import games.events.CardEvent;
-	import games.timers.CardTimer;
+	import picard.events.CardEvent;
+	import picard.timers.CardTimer;
 
 	public class CardHandler extends EventDispatcher {
 		
@@ -23,7 +23,7 @@ package games
 		private var cardFactory:ICardFactory;
 		private var flarManager:FLARManager;
 		
-		private var currentMarkers:Dictionary; // the markers that are currently in play
+		private var markersInPlay:Dictionary; // the markers that are currently in play mapped to their cards
 		private var cardsPendingPlacement:Dictionary;
 		private var cardsPendingRemoval:Dictionary;
 		
@@ -31,12 +31,12 @@ package games
 		public function CardHandler(cardFactory:ICardFactory, flarManager:FLARManager) {
 			this.cardFactory = cardFactory;
 			this.flarManager = flarManager;
-			this.currentMarkers = new Dictionary();
+			this.markersInPlay = new Dictionary();
 			this.cardsPendingPlacement =  new Dictionary();
 			this.cardsPendingRemoval =  new Dictionary();
 		}
 		
-		public function start():void {
+		public function startHandling():void {
 			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_ADDED, this.onMarkerAdded);
 			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_REMOVED, this.onMarkerRemoved);
 		}
@@ -45,13 +45,13 @@ package games
 		private function onMarkerAdded(event:FLARMarkerEvent):void {
 			this.newCardID += 1;
 			var card:Card = this.cardFactory.createNewCard(event.marker, newCardID);
-			this.currentMarkers[event.marker] = card;
+			this.markersInPlay[event.marker] = card;
 			dispatchEvent(new CardEvent(CardEvent.ADDED, card));
 		}
 		
 		private function onMarkerRemoved(event:FLARMarkerEvent):void {
-			var card:Card = currentMarkers[event.marker];
-			delete this.currentMarkers[event.marker];
+			var card:Card = markersInPlay[event.marker];
+			delete this.markersInPlay[event.marker];
 			dispatchEvent(new CardEvent(CardEvent.REMOVED, card));
 		}
 		
@@ -80,7 +80,7 @@ package games
 				delete this.cardsPendingPlacement[event.marker];
 				//now do nothing as marker addition was probably a glitch
 			} else { //card is on the table
-				var card:Card = currentMarkers[event.marker];
+				var card:Card = markersInPlay[event.marker];
 				card.removalTimer = new CardTimer(card, REMOVAL_DELAY, 1);
 				card.removalTimer.addEventListener(TimerEvent.TIMER, cardRemoved);
 				card.removalTimer.start();
@@ -117,13 +117,13 @@ package games
 		
 		private function cardAdded(event:TimerEvent):void {
 			var card:Card = event.target.card;
-			this.currentMarkers[card.marker] = card;
+			this.markersInPlay[card.marker] = card;
 			dispatchEvent(new CardEvent(CardEvent.ADDED, card));
 		}
 		
 		private function cardRemoved(event:TimerEvent):void {
 			var card:Card = event.target.card;
-			delete this.currentMarkers[card.marker];
+			delete this.markersInPlay[card.marker];
 			dispatchEvent(new CardEvent(CardEvent.REMOVED, card));
 		}
 

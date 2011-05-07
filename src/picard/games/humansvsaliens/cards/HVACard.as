@@ -1,11 +1,11 @@
-package games.humansvsaliens.cards
+package picard.games.humansvsaliens.cards
 {
 	import com.transmote.flar.marker.FLARMarker;
 	
 	import flash.display.Sprite;
 	
-	import games.Card;
-	import games.ICardFactory;
+	import picard.Card;
+	import picard.ICardFactory;
 	
 	public class HVACard extends Card {
 		

@@ -1,4 +1,4 @@
-package games
+package picard
 {
 	import com.transmote.flar.FLARManager;
 	import com.transmote.flar.tracker.FLARToolkitManager;
@@ -8,7 +8,7 @@ package games
 	import flash.events.Event;
 	import flash.utils.Dictionary;
 	
-	import games.events.CardEvent;
+	import picard.events.CardEvent;
 		
 	public class GameTable extends Sprite {
 		
@@ -28,6 +28,7 @@ package games
 			this.cardsInPlay = new Dictionary();
 			this.addBackground();
 			this.displayFramerate();
+			//TODO: Wait for a game start event from cardhandler to start game
 		}
 		
 		private function init(event:Event):void {
@@ -35,11 +36,10 @@ package games
 			this.flarManager = new FLARManager(configFile, new FLARToolkitManager(), this.stage);
 			if (showSource) this.addSource();
 			
-			// Wrap up the handling of the marker events
 			this.cardHandler = new CardHandler(this.cardFactory, this.flarManager);
 			this.cardHandler.addEventListener(CardEvent.ADDED, this.cardAdded);
 			this.cardHandler.addEventListener(CardEvent.REMOVED, this.cardRemoved);
-			this.cardHandler.start();
+			this.cardHandler.startHandling();
 		}
 		
 		private function cardAdded(event:CardEvent):void {

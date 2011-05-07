@@ -1,4 +1,4 @@
-package games
+package picard
 {
 	import com.transmote.flar.marker.FLARMarker;
 

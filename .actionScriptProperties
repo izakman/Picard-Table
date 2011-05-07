@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="GameLauncher.as" projectUUID="971ddaa9-f4ff-4b13-ad3c-52921a130d43" version="6">
+<actionScriptProperties analytics="false" mainApplicationPath="PicardTable.as" projectUUID="971ddaa9-f4ff-4b13-ad3c-52921a130d43" version="6">
   <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="false" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="false" htmlGenerate="true" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="0">
@@ -29,9 +29,7 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="Tester.as"/>
-    <application path="FLARManagerProfiler.as"/>
-    <application path="GameLauncher.as"/>
+    <application path="PicardTable.as"/>
   </applications>
   <modules/>
   <buildCSSFiles/>
