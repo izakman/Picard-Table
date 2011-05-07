@@ -1,0 +1,101 @@
+[version 1.1]
+30 january 2011
+- added Away3D Collada example
+
+- all 3D examples now use Away3D instead of Papervision3D
+
+- added IFLARSource.sourceDirty --
+	if source has changed less than activityThreshold, tracker will not update.
+	this results in much better framerates with stationary markers.
+
+- non-4:3 aspect ratios now work well for all frameworks
+	exception: native flash 3D still has problems (scaling errors) with some aspect ratios.
+
+- support for Alternativa3D v7 (thanks makc!)
+
+- markerMode and patternMode added.
+
+- updates (minor) to FLARToolkit source.
+
+
+[version 1.04]
+28 november 2010
+- FLARManager waits for flarSource.source to be inited before initing trackerManager.
+
+- updated Away3D SWC and examples to Away3D 3.6.0.
+
+
+[version 1.03]
+31 october 2010
+
+- removed reference to FlareTracker in FLARManagerProfiler that was causing CLibInit compile-time errors.
+
+
+[version 1.02]
+october 2010
+
+- added FLARCameraSource.activityThreshold, to reduce jitter when marker is held still.
+
+- updated to FLARToolkit 2.5.5.
+	this fixes a bug in which the CS5 compiler does not recognize default parameters defined as constants.
+	more info on the bug here:
+	http://words.transmote.com/wp/flarmanager/inside-flarmanager/basic-augmented-reality/comment-page-1/#comment-13098 
+
+
+[version 1.01]
+15 august 2010
+
+- removed flare* libs from distro and SVN.  devs must now download flare* libs separately, from here:
+	http://www.imagination.at/en/?Products:Augmented_Reality_for_Flash
+
+
+
+[version 1.0]
+august 2010
+NOTE: MAJOR RESTRUCTURING IN THIS RELEASE; DO NOT ATTEMPT TO USE WITH EXISTING APPLICATIONS.
+
+- Object/marker tracking libraries (e.g. FLARToolkit) are now abstracted from FLARManager,
+	allowing the use of any tracking library.  This resulted in major structural changes within FLARManager;
+	please refer to the updated examples and documentation for more information.
+
+- support for flare/NFT
+	
+- new FLARMatrixSmoother_Average -- smoothes angle (2x) more than position.
+	set via flarConfig or directly.
+	old version refactored to FLARMatrixSmoother_AverageSimple.
+	
+- away3d lite support (done a while back, in SVN)
+
+- abstraction of tracking engine: support for flare/NFT, other engines
+	- everything interally uses Matrix3D
+	- new flar.camera package simplifies scene setup
+	- new flar.tracker package contains classes that communicate with tracking libraries
+	
+- support for native flash 3d
+
+- bug fix: thresholdAdapter = null
+
+- bug fix: secondary camera validation does not fail when FLARManager does not init
+
+- completed ASDocs
+
+- updated all examples/tutorials to correspond to new restructuring
+
+- made changes for the following FLARToolkit features:
+	- thresholdSourceDisplay moved into FLARToolkitManager.
+	- minimumLabelSize replaced by labelAreaMin/Max
+	- patternToBorderRatioX/Y replaces patternToBorderRatio, allowing for variable pattern-to-border ratios for both width and height
+	- FLARMarker.direction re-implemented
+	- FLARToolkit.setContinueMode is set to true by default
+
+- ID-markers not yet implemented for FLARToolkitManager.
+
+- FLARManager_AppLauncher and .apps package provide examples using FLARManager for alternative interfaces
+
+- downsampleRatio refactored to trackerToSourceRatio
+
+- flarConfig.xml: camera view defaults to 640x480
+
+- flarConfig.xml: all tracker-related data now lives within <trackerSettings>
+
+- flarConfig.xml: <patterns> element now lives within <flarToolkitSettings>
