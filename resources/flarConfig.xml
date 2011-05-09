@@ -7,8 +7,8 @@
 	<flarSourceSettings
 		sourceWidth="640"
 		sourceHeight="480"
-		displayWidth="640"
-		displayHeight="480"
+		displayWidth="960"
+		displayHeight="600"
 		framerate="30"
 		trackerToSourceRatio="0.5"
 		activityThreshold="16"/>
