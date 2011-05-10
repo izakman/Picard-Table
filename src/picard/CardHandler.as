@@ -12,6 +12,10 @@ package picard
 	import picard.events.CardEvent;
 	import picard.timers.CardTimer;
 
+	/**
+	 * Wraps up the marker events dispatched by the FLARManager so that the 
+	 * game only sees the card events it needs to.
+	 */
 	public class CardHandler extends EventDispatcher {
 		
 		private const REMOVAL_DELAY:Number = 1000; //in milliseconds
@@ -28,6 +32,14 @@ package picard
 		private var cardsPendingRemoval:Dictionary;
 		
 		
+		/**
+		 * Constructs a new CardHandler.
+		 * 
+		 * @param cardFactory A factory implementing ICardFactory that can 
+		 * 					  create the cards needed for the particular game.
+		 * @param flarManager The FLARManager object that detects the markers 
+		 * 					  for the game.
+		 */
 		public function CardHandler(cardFactory:ICardFactory, flarManager:FLARManager) {
 			this.cardFactory = cardFactory;
 			this.flarManager = flarManager;
@@ -36,6 +48,9 @@ package picard
 			this.cardsPendingRemoval =  new Dictionary();
 		}
 		
+		/**
+		 * Starts the CardHander's monitoring and dispatching of events.
+		 */
 		public function startHandling():void {
 			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_ADDED, this.onMarkerAdded);
 			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_REMOVED, this.onMarkerRemoved);
@@ -55,7 +70,7 @@ package picard
 			dispatchEvent(new CardEvent(CardEvent.REMOVED, card));
 		}
 		
-		private function TESTonMarkerAdded(event:FLARMarkerEvent):void {
+		private function onMarkerAdded2(event:FLARMarkerEvent):void {
 			//get the card if a card pending removal is within the time and range allowed
 			var card:Card = isCardStillOnTable(event.marker);
 			if (card == null) {
@@ -73,7 +88,7 @@ package picard
 			}
 		}
 		
-		private function TESTonMarkerRemoved(event:FLARMarkerEvent):void {
+		private function onMarkerRemoved2(event:FLARMarkerEvent):void {
 			//check if the card was pending
 			if (this.cardsPendingPlacement[event.marker]) {
 				this.cardsPendingPlacement[event.marker].placementTimer.stop();
@@ -88,6 +103,15 @@ package picard
 			}
 		}
 		
+		/**
+		 * Given a newly added FLARMarker, the method determines if should be 
+		 * regarded as a new card, or one already existing on the table.
+		 * 
+		 * @param marker The new FLARMarker.
+		 * 
+		 * @return The Card object found to be the same as the new marker.  If 
+		 * 		   no card is found, returns null instead.
+		 */
 		private function isCardStillOnTable(marker:FLARMarker):Card {
 			var possibleCards:Array = new Array();
 			for each (var card:Card in this.cardsPendingRemoval) {
@@ -109,18 +133,39 @@ package picard
 			}
 		}
 
+		/**
+		 * Calculates the distance between the given Card and FLARMarker.
+		 * 
+		 * @param card
+		 * @param marker
+		 * @return The distance in pixels.
+		 */
 		private function distanceBetween(card:Card, marker:FLARMarker):Number {
 			//distance equation from - http://www.ilike2flash.com/2011/01/as3-distance-between-two-points.html
 			return Math.sqrt( (card.x - marker.centerpoint.x) * (card.x - marker.centerpoint.x) + (card.y - marker.centerpoint.y) * (card.y - marker.centerpoint.y) );
 		}
 		
 		
+		/**
+		 * Handles the TimerEvent that occurs when an added marker should now 
+		 * be added as a actual card and dispatches a new CardEvent to say as 
+		 * such.
+		 * 
+		 * @param event A TimerEvent.
+		 */
 		private function cardAdded(event:TimerEvent):void {
 			var card:Card = event.target.card;
 			this.markersInPlay[card.marker] = card;
 			dispatchEvent(new CardEvent(CardEvent.ADDED, card));
 		}
 		
+		/**
+		 * Handles the TimerEvent that occurs when an removed marker should now 
+		 * remove the associated card and dispatches a new CardEvent to say as 
+		 * such.
+		 * 
+		 * @param event A TimerEvent.
+		 */
 		private function cardRemoved(event:TimerEvent):void {
 			var card:Card = event.target.card;
 			delete this.markersInPlay[card.marker];

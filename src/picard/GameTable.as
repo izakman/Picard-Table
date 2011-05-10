@@ -10,9 +10,12 @@ package picard
 	
 	import picard.events.CardEvent;
 		
+	/**
+	 * The base class for every game.  Shouldn't be instantiated on its own.
+	 */
 	public class GameTable extends Sprite {
 		
-		protected var configFile:String = "../resources/flarConfig.xml"; // url to config file for flarmanager
+		protected var flarConfigFile:String = "../resources/flarConfig.xml"; // url to config file for flarmanager
 		protected var flarManager:FLARManager;
 		protected var cardHandler:CardHandler;
 		
@@ -23,6 +26,9 @@ package picard
 		
 		protected var cardFactory:ICardFactory;
 		
+		/**
+		 * Constructs a new GameTable.
+		 */
 		public function GameTable() {
 			this.addEventListener(Event.ADDED_TO_STAGE, this.init);
 			this.cardsInPlay = new Dictionary();
@@ -31,21 +37,24 @@ package picard
 			//TODO: Wait for a game start event from cardhandler to start game
 		}
 		
+		/**
+		 * Initializes the parts needed for the game to start
+		 *  
+		 * @param event
+		 */
 		private function init(event:Event):void {
 			this.removeEventListener(Event.ADDED_TO_STAGE, this.init);
-			this.flarManager = new FLARManager(configFile, new FLARToolkitManager(), this.stage);
+			this.flarManager = new FLARManager(flarConfigFile, new FLARToolkitManager(), this.stage);
 			if (showSource) this.addSource();
 			
 			this.cardHandler = new CardHandler(this.cardFactory, this.flarManager);
-			this.cardHandler.addEventListener(CardEvent.ADDED, this.cardAdded);
-			this.cardHandler.addEventListener(CardEvent.REMOVED, this.cardRemoved);
-			this.cardHandler.startHandling();
+			this.startGame();
 		}
 		
 		private function cardAdded(event:CardEvent):void {
 			this.addChild(event.card);
 			this.cardsInPlay[event.card.id] = event.card;
-			trace("Card", event.card.id,  "Added...");
+			trace("Card", event.card.id, "of type",event.card.type,  "Added...");
 		}
 		
 		private function cardRemoved(event:CardEvent):void {
@@ -54,6 +63,15 @@ package picard
 			trace("Card", event.card.id, "Removed...");
 		}
 		
+		protected function startGame():void {
+			this.cardHandler.addEventListener(CardEvent.ADDED, this.cardAdded);
+			this.cardHandler.addEventListener(CardEvent.REMOVED, this.cardRemoved);
+			this.cardHandler.startHandling();
+		}
+		
+		protected function endGame():void {
+			
+		}
 		
 		private function displayFramerate():void {
 			var framerateDisplay:FramerateDisplay = new FramerateDisplay();
