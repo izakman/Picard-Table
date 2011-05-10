@@ -32,10 +32,10 @@ package picard.games.humansvsaliens
 			this.planetHealth[player2] = PLANET_HEALTH;
 		}
 		
-		override protected function startGame():void {
-			var setupPhase:SetupPhase = new SetupPhase();
-			setupPhase.addEventListener(StateEvent.ENDED, enterCommandPhase);
-		}
+//		override protected function startGame():void {
+//			var setupPhase:SetupPhase = new SetupPhase();
+//			setupPhase.addEventListener(StateEvent.ENDED, enterCommandPhase);
+//		}
 		
 		private function enterCommandPhase(e:StateEvent):void {
 			//TODO: enterCommandPhase

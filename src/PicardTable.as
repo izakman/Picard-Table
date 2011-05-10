@@ -25,7 +25,6 @@ package
 		}
 		
 		private function loadHVA():void {
-			this.removeChild(this.currentTable);
 			this.currentTable = new HVATable();
 			this.addChild(this.currentTable);
 		}

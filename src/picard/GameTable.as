@@ -58,6 +58,8 @@ package picard
 		}
 		
 		private function cardRemoved(event:CardEvent):void {
+			
+			trace("card remove event");
 			this.removeChild(event.card)
 			delete this.cardsInPlay[event.card.id];
 			trace("Card", event.card.id, "Removed...");

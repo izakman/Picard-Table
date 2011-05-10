@@ -271,11 +271,18 @@ package com.transmote.flar.marker {
 		/**
 		 * The rotation of the marker along Z axis.
 		 */
+		
+		private var lastZ:Number = 0;
+		
 		public function get rotationZ () :Number {
-			if (!this.rotations) {
-				this.rotations = FLARGeomUtils.calcMatrix3DRotations(this._transformMatrix, true, this._flarSource.mirrored);
+			if(this._flarSource) {
+				if (!this.rotations) {
+					this.rotations = FLARGeomUtils.calcMatrix3DRotations(this._transformMatrix, true, this._flarSource.mirrored);
+					lastZ = this.rotations.z;
+					return this.rotations.z;
+				}
 			}
-			return this.rotations.z;
+			return lastZ;
 		}
 		
 		/**

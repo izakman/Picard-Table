@@ -52,8 +52,8 @@ package picard
 		 * Starts the CardHander's monitoring and dispatching of events.
 		 */
 		public function startHandling():void {
-			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_ADDED, this.onMarkerAdded);
-			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_REMOVED, this.onMarkerRemoved);
+			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_ADDED, this.onMarkerAdded2);
+			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_REMOVED, this.onMarkerRemoved2);
 		}
 		
 		
@@ -61,16 +61,23 @@ package picard
 			this.newCardID += 1;
 			var card:Card = this.cardFactory.createNewCard(event.marker, newCardID);
 			this.markersInPlay[event.marker] = card;
+//			for each (var c:Card in this.markersInPlay) {
+//				trace("<< ", c.type, " >>");
+//			}
 			dispatchEvent(new CardEvent(CardEvent.ADDED, card));
 		}
 		
 		private function onMarkerRemoved(event:FLARMarkerEvent):void {
 			var card:Card = markersInPlay[event.marker];
 			delete this.markersInPlay[event.marker];
+//			for each (var c:Card in this.markersInPlay) {
+//				trace("<< ", c.type, " >>");
+//			}
 			dispatchEvent(new CardEvent(CardEvent.REMOVED, card));
 		}
 		
 		private function onMarkerAdded2(event:FLARMarkerEvent):void {
+			trace("marker added event");
 			//get the card if a card pending removal is within the time and range allowed
 			var card:Card = isCardStillOnTable(event.marker);
 			if (card == null) {
@@ -89,18 +96,23 @@ package picard
 		}
 		
 		private function onMarkerRemoved2(event:FLARMarkerEvent):void {
+			trace("A MARKER GOT REMOVED");
 			//check if the card was pending
-			if (this.cardsPendingPlacement[event.marker]) {
-				this.cardsPendingPlacement[event.marker].placementTimer.stop();
-				delete this.cardsPendingPlacement[event.marker];
+			//if (this.cardsPendingPlacement[event.marker]) {
+				//this.cardsPendingPlacement[event.marker].placementTimer.stop();
+				//delete this.cardsPendingPlacement[event.marker];
+				//trace("MAYBE NOT A GLITCH");
 				//now do nothing as marker addition was probably a glitch
-			} else { //card is on the table
+			//} else { //card is on the table
 				var card:Card = markersInPlay[event.marker];
-				card.removalTimer = new CardTimer(card, REMOVAL_DELAY, 1);
-				card.removalTimer.addEventListener(TimerEvent.TIMER, cardRemoved);
-				card.removalTimer.start();
-				this.cardsPendingRemoval[event.marker] = card;
-			}
+				if(card){
+					card.removalTimer = new CardTimer(card, REMOVAL_DELAY, 1);
+					card.removalTimer.addEventListener(TimerEvent.TIMER, cardRemoved);
+					card.removalTimer.start();
+					this.cardsPendingRemoval[event.marker] = card;
+				}
+				trace("GODELETEYOURSELF");
+			//}
 		}
 		
 		/**
