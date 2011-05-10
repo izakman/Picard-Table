@@ -268,12 +268,13 @@ package com.transmote.flar.marker {
 			return this.rotations.y;
 		}
 		
+		
+		//=== \/ MODIFIED BY DEKKER \/ ===================
+		private var lastZ:Number = 0;
+		
 		/**
 		 * The rotation of the marker along Z axis.
 		 */
-		
-		private var lastZ:Number = 0;
-		
 		public function get rotationZ () :Number {
 			if(this._flarSource) {
 				if (!this.rotations) {
@@ -284,6 +285,7 @@ package com.transmote.flar.marker {
 			}
 			return lastZ;
 		}
+		//=== /\ MODIFIED BY DEKKER /\ ===================
 		
 		/**
 		 * A Vector of four Points that describe the four points of the detected marker's outline.

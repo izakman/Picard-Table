@@ -19,7 +19,7 @@ package picard
 	public class CardHandler extends EventDispatcher {
 		
 		private const REMOVAL_DELAY:Number = 1000; //in milliseconds
-		private const REPLACE_RANGE:Number = 40; //in pixels
+		private const REPLACE_RANGE:Number = 200; //in pixels
 		private const PLACEMENT_DELAY:Number = 1000; //in milliseconds
 		
 		private var newCardID:Number = 0;
@@ -77,7 +77,7 @@ package picard
 		}
 		
 		private function onMarkerAdded2(event:FLARMarkerEvent):void {
-			trace("marker added event");
+			trace("adding");
 			//get the card if a card pending removal is within the time and range allowed
 			var card:Card = isCardStillOnTable(event.marker);
 			if (card == null) {
@@ -87,32 +87,35 @@ package picard
 				card.placementTimer.addEventListener(TimerEvent.TIMER, cardAdded);
 				card.placementTimer.start();
 				this.cardsPendingPlacement[event.marker] = card;
+				trace("|| Card", card.id, "["+card.marker.sessionId+"]", "pending placement");
 			} else {
 				//replace marker within card
+				var oldMarker:FLARMarker = card.marker;
+				var newMarker:FLARMarker = event.marker;
 				card.removalTimer.stop();
-				delete this.cardsPendingRemoval[event.marker];
-				card.replaceMarker(event.marker);
+				delete this.cardsPendingRemoval[oldMarker];
+				delete this.markersInPlay[oldMarker]; //delete existing marker from play
+				this.markersInPlay[newMarker] = card; //add new marker to play
+				card.replaceMarker(newMarker);
+				trace("|| Card", card.id, "["+card.marker.sessionId+"]", "marker replaced");
 			}
 		}
 		
 		private function onMarkerRemoved2(event:FLARMarkerEvent):void {
-			trace("A MARKER GOT REMOVED");
-			//check if the card was pending
-			//if (this.cardsPendingPlacement[event.marker]) {
-				//this.cardsPendingPlacement[event.marker].placementTimer.stop();
-				//delete this.cardsPendingPlacement[event.marker];
-				//trace("MAYBE NOT A GLITCH");
-				//now do nothing as marker addition was probably a glitch
-			//} else { //card is on the table
-				var card:Card = markersInPlay[event.marker];
-				if(card){
-					card.removalTimer = new CardTimer(card, REMOVAL_DELAY, 1);
-					card.removalTimer.addEventListener(TimerEvent.TIMER, cardRemoved);
-					card.removalTimer.start();
-					this.cardsPendingRemoval[event.marker] = card;
-				}
-				trace("GODELETEYOURSELF");
-			//}
+			trace("removing");
+			var card:Card = this.cardsPendingPlacement[event.marker];
+			if(card){
+				card.placementTimer.stop();
+				delete this.cardsPendingPlacement[event.marker];
+				trace("|| Card", card.id, "["+card.marker.sessionId+"]", "removed from pending placement");
+			} else {
+				card = this.markersInPlay[event.marker];
+				card.removalTimer = new CardTimer(card, REMOVAL_DELAY, 1);
+				card.removalTimer.addEventListener(TimerEvent.TIMER, cardRemoved);
+				card.removalTimer.start();
+				this.cardsPendingRemoval[event.marker] = card;
+				trace("|| Card", card.id, "["+card.marker.sessionId+"]", "pending removal");
+			}
 		}
 		
 		/**
@@ -167,6 +170,7 @@ package picard
 		 */
 		private function cardAdded(event:TimerEvent):void {
 			var card:Card = event.target.card;
+			delete this.cardsPendingPlacement[card.marker];
 			this.markersInPlay[card.marker] = card;
 			dispatchEvent(new CardEvent(CardEvent.ADDED, card));
 		}
@@ -180,6 +184,7 @@ package picard
 		 */
 		private function cardRemoved(event:TimerEvent):void {
 			var card:Card = event.target.card;
+			delete this.cardsPendingRemoval[card.marker];
 			delete this.markersInPlay[card.marker];
 			dispatchEvent(new CardEvent(CardEvent.REMOVED, card));
 		}
