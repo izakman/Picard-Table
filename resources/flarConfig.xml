@@ -9,20 +9,21 @@
 		sourceHeight="480"
 		displayWidth="960"
 		displayHeight="600"
-		framerate="30"
+		framerate="20"
 		trackerToSourceRatio="0.5"
 		activityThreshold="16"/>
 
 	<!-- miscellaneous FLARManager settings -->
 	<flarManagerSettings
 		mirrorDisplay="true"
-		smoothing="4" >
+		smoothing="20" >
 		<smoother className="FLARMatrixSmoother_Average" positionToRotationRatio="0.5" />
-		<thresholdAdapter className="DrunkHistogramThresholdAdapter" speed="0.3" />
+		<thresholdAdapter className="DrunkHistogramThresholdAdapter" speed="0.5" />
 	</flarManagerSettings>
 	
 	<!-- settings for the selected tracking library.  feel free to omit elements not relevant for the selected tracking library. -->
 	<trackerSettings>
+	
 	
 		<!-- location of resources folder and camera parameters file, and NFT settings, for Flare. -->
 		<flareSettings
@@ -40,7 +41,7 @@
 			
 			<!-- list of file paths of patterns for FLARToolkit to detect. -->
 			<!-- @resolution specifies the resolution at which the patterns were generated. -->
-			<patterns resolution="8" patternToBorderRatioX="50" patternToBorderRatioY="50" minConfidence="0.5" >
+			<patterns resolution="8" patternToBorderRatioX="50" patternToBorderRatioY="50" minConfidence="0.6" >
 				<pattern path="../resources/flarToolkit/patterns/pat8/patt001.pat" />
 				<pattern path="../resources/flarToolkit/patterns/pat8/patt003.pat" />
 				<pattern path="../resources/flarToolkit/patterns/pat8/patt004.pat" />

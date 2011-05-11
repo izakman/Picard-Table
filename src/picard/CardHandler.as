@@ -18,9 +18,9 @@ package picard
 	 */
 	public class CardHandler extends EventDispatcher {
 		
-		private const REMOVAL_DELAY:Number = 1000; //in milliseconds
+		private const REMOVAL_DELAY:Number = 800; //in milliseconds
 		private const REPLACE_RANGE:Number = 200; //in pixels
-		private const PLACEMENT_DELAY:Number = 1000; //in milliseconds
+		private const PLACEMENT_DELAY:Number = 800; //in milliseconds
 		
 		private var newCardID:Number = 0;
 		
@@ -52,31 +52,11 @@ package picard
 		 * Starts the CardHander's monitoring and dispatching of events.
 		 */
 		public function startHandling():void {
-			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_ADDED, this.onMarkerAdded2);
-			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_REMOVED, this.onMarkerRemoved2);
+			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_ADDED, this.onMarkerAdded);
+			this.flarManager.addEventListener(FLARMarkerEvent.MARKER_REMOVED, this.onMarkerRemoved);
 		}
-		
 		
 		private function onMarkerAdded(event:FLARMarkerEvent):void {
-			this.newCardID += 1;
-			var card:Card = this.cardFactory.createNewCard(event.marker, newCardID);
-			this.markersInPlay[event.marker] = card;
-//			for each (var c:Card in this.markersInPlay) {
-//				trace("<< ", c.type, " >>");
-//			}
-			dispatchEvent(new CardEvent(CardEvent.ADDED, card));
-		}
-		
-		private function onMarkerRemoved(event:FLARMarkerEvent):void {
-			var card:Card = markersInPlay[event.marker];
-			delete this.markersInPlay[event.marker];
-//			for each (var c:Card in this.markersInPlay) {
-//				trace("<< ", c.type, " >>");
-//			}
-			dispatchEvent(new CardEvent(CardEvent.REMOVED, card));
-		}
-		
-		private function onMarkerAdded2(event:FLARMarkerEvent):void {
 			trace("adding");
 			//get the card if a card pending removal is within the time and range allowed
 			var card:Card = isCardStillOnTable(event.marker);
@@ -101,7 +81,7 @@ package picard
 			}
 		}
 		
-		private function onMarkerRemoved2(event:FLARMarkerEvent):void {
+		private function onMarkerRemoved(event:FLARMarkerEvent):void {
 			trace("removing");
 			var card:Card = this.cardsPendingPlacement[event.marker];
 			if(card){
