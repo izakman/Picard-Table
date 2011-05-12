@@ -1,5 +1,5 @@
-package
-{
+package {
+	
 	import flash.display.Sprite;
 	
 	import picard.GameTable;
@@ -15,20 +15,12 @@ package
 	 */
 	public class PicardTable extends Sprite {
 		
-		private var currentTable:GameTable;
-		
-		public function PicardTable() {
+		public function PicardTable () {
+			
+			this.addChild(new HVATable());
 			//this.addChild(new CAKE());
-			this.loadHVA();
+			
 		}
 		
-		private function loadLoader():void {
-			// addChild loader
-		}
-		
-		private function loadHVA():void {
-			this.currentTable = new HVATable();
-			this.addChild(this.currentTable);
-		}
 	}
 }
