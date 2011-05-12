@@ -21,6 +21,7 @@ package picard.games.humansvsaliens
 		private var planetHealth:Dictionary;
 		
 		public function HVATable() {
+			this.flarConfigFile = "../resources/humansvsaliens/flarConfig.xml";
 			this.cardFactory = new HVACardFactory();
 			this.showSource = true;
 			this.sourceAlpha = 1;
