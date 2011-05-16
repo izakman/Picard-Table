@@ -5,7 +5,12 @@ package picard.games.humansvsaliens.cards
 	import flash.events.Event;
 	import flash.utils.Dictionary;
 	
+	import picard.GameTable;
+	import picard.events.CardEvent;
+	
 	public class PowerCard extends HVACard {
+		
+		public var shipBoosted:ShipCard = null;
 		
 		public function PowerCard(marker:FLARMarker, cardID:Number) {
 			super(marker, cardID);
@@ -18,17 +23,42 @@ package picard.games.humansvsaliens.cards
 		}
 		
 		override protected function enterFrame(e:Event):void {
-			this.updateLocation();
+			super.enterFrame(e);
 			this.checkProximity();
 		}
 		
 		private function checkProximity():void {
-			var gameCards:Dictionary = Global.vars.gameTable.cardsInPlay;
-			for each (var card:HVACard in gameCards) {
-				
-			}
-			
+			//TODO
 		}
+		
+		public function activatePowerBoost(card:ShipCard):void {
+			this.shipBoosted = card;
+			this.shipBoosted.boostPower(this);
+			this.enableBeam(this.shipBoosted);
+		}
+		
+		public function disablePowerBoost():void {
+			this.disableBeam();
+			this.shipBoosted.removeBoost();
+			this.shipBoosted = null;
+		}
+		
+		private function enableBeam(card:ShipCard):void {
+			//add graphics
+		}
+		
+		private function disableBeam():void {
+			//remove graphics
+		}
+		
+		override public function cleanUp():void {
+			super.cleanUp();
+			if (this.shipBoosted) {
+				this.disablePowerBoost();
+			}
+		}
+		
+		
 		
 	}
 }

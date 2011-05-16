@@ -4,7 +4,8 @@ package picard.games.humansvsaliens.cards
 	
 	public class ShipCard extends HVACard {
 		
-		private var currentPower:Number;
+		public var currentPower:Number;
+		public var powerBooster:PowerCard = null;
 		
 		public function ShipCard(marker:FLARMarker, cardID:Number) {
 			super(marker, cardID);
@@ -20,17 +21,26 @@ package picard.games.humansvsaliens.cards
 		}
 		
 		public function boostPower(powerCard:PowerCard):void {
-			this.currentPower = this.cardPower + powerCard.power;
+			this.powerBooster = powerCard;
+			this.currentPower = this.cardPower + this.powerBooster.power;
 			trace("   >> Power boosted by", powerCard.power);
 			//modify card power sprite
 		}
 		
 		public function removeBoost():void {
 			this.currentPower = this.cardPower;
+			this.powerBooster = null;
 			trace("   >> Boost removed");
 			//modify card power sprite
 		}
 		
+		override public function cleanUp():void {
+			super.cleanUp();
+			if (this.powerBooster) {
+				this.powerBooster.disablePowerBoost();
+			}
+		}
+				
 		
 	}
 }
