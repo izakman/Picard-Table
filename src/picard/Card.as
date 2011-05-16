@@ -29,8 +29,8 @@ package picard
 			
 			this.cardSide = this.determinSide();
 			this.drawCard();
-			this.addEventListener(Event.ENTER_FRAME, enterFrame);
-			this.addEventListener(Event.REMOVED_FROM_STAGE, onRemoved);
+			this.addEventListener(Event.ENTER_FRAME, this.enterFrame);
+			this.addEventListener(Event.REMOVED_FROM_STAGE, this.cleanUp);
 		}
 		
 		public function replaceMarker(marker:FLARMarker):void {
@@ -52,10 +52,6 @@ package picard
 		
 		public function get side():String {
 			return this.cardSide;
-		}
-		
-		protected function onRemoved(e:Event):void {
-			this.removeEventListener(Event.ENTER_FRAME, enterFrame);
 		}
 		
 		protected function enterFrame(e:Event):void {
@@ -84,6 +80,10 @@ package picard
 			this.cardSprite.x = 0-(pieceSize/2);
 			this.cardSprite.y = 0-(pieceSize/2);
 			this.addChild(cardSprite);
+		}
+		
+		public function cleanUp():void {
+			this.removeEventListener(Event.ENTER_FRAME, enterFrame);
 		}
 		
 	}
