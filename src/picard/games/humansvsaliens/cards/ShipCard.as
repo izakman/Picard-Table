@@ -21,11 +21,13 @@ package picard.games.humansvsaliens.cards
 		
 		public function boostPower(powerCard:PowerCard):void {
 			this.currentPower = this.cardPower + powerCard.power;
+			trace("   >> Power boosted by", powerCard.power);
 			//modify card power sprite
 		}
 		
 		public function removeBoost():void {
 			this.currentPower = this.cardPower;
+			trace("   >> Boost removed");
 			//modify card power sprite
 		}
 		

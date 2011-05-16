@@ -8,6 +8,7 @@ package picard
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
+	import flash.utils.getQualifiedClassName;
 	
 	import picard.events.CardEvent;
 	import picard.games.humansvsaliens.cards.HVACard;
@@ -60,7 +61,7 @@ package picard
 			this.addChild(event.card);
 			this.cardsInPlay[event.card.id] = event.card;
 			trace("<< Card", event.card.id, "added >>");
-			trace("  << Card is", event.card.side);
+			trace("   >> Card is a ", event.card.side, getQualifiedClassName(event.card));
 		}
 		
 		private function cardRemoved(event:CardEvent):void {
