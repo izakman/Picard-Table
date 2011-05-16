@@ -1,6 +1,7 @@
 package picard
 {
 	import com.transmote.flar.FLARManager;
+	import com.transmote.flar.marker.FLARMarker;
 	import com.transmote.flar.tracker.FLARToolkitManager;
 	import com.transmote.utils.time.FramerateDisplay;
 	
@@ -91,6 +92,18 @@ package picard
 		
 		protected function addBackground():void {
 			
+		}
+		
+////////////////////////////////////
+		
+		public static function distanceBetweenCards(card1:Card, card2:Card):Number {
+			//distance equation from - http://www.ilike2flash.com/2011/01/as3-distance-between-two-points.html
+			return Math.sqrt( (card1.x - card2.x) * (card1.x - card2.x) + (card1.y - card2.y) * (card1.y - card2.y) );
+		}
+		
+		public static function distanceBetweenMarkers(marker1:FLARMarker, marker2:FLARMarker):Number {
+			//distance equation from - http://www.ilike2flash.com/2011/01/as3-distance-between-two-points.html
+			return Math.sqrt( (marker1.centerpoint.x - marker2.centerpoint.x) * (marker1.centerpoint.x - marker2.centerpoint.x) + (marker1.centerpoint.y - marker2.centerpoint.y) * (marker1.centerpoint.y - marker2.centerpoint.y) );
 		}
 		
 	}

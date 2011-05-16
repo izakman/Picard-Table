@@ -113,7 +113,7 @@ package picard
 				//check if card is waiting to be removed and is the same type
 				if (card.type == marker.patternId) {
 					//check if card is within replacement range
-					var distance:Number = distanceBetween(card, marker);
+					var distance:Number = GameTable.distanceBetweenMarkers(card.marker, marker);
 					if (distance <= REPLACE_RANGE) {
 						possibleCards.push({"card":card, "distance":distance});
 					}
@@ -127,19 +127,6 @@ package picard
 				return null;
 			}
 		}
-
-		/**
-		 * Calculates the distance between the given Card and FLARMarker.
-		 * 
-		 * @param card
-		 * @param marker
-		 * @return The distance in pixels.
-		 */
-		private function distanceBetween(card:Card, marker:FLARMarker):Number {
-			//distance equation from - http://www.ilike2flash.com/2011/01/as3-distance-between-two-points.html
-			return Math.sqrt( (card.x - marker.centerpoint.x) * (card.x - marker.centerpoint.x) + (card.y - marker.centerpoint.y) * (card.y - marker.centerpoint.y) );
-		}
-		
 		
 		/**
 		 * Handles the TimerEvent that occurs when an added marker should now 
