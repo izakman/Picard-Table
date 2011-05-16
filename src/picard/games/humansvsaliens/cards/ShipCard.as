@@ -4,17 +4,29 @@ package picard.games.humansvsaliens.cards
 	
 	public class ShipCard extends HVACard {
 		
+		private var currentPower:Number;
+		
 		public function ShipCard(marker:FLARMarker, cardID:Number) {
 			super(marker, cardID);
 			this.cardType = marker.patternId;
 			switch (cardType) {
 				case HVACard.SCOUT:
-					this.cardPower = 1; break;
+					this.currentPower = this.cardPower = 1; break;
 				case HVACard.FIGHTER:
-					this.cardPower = 2; break;
+					this.currentPower = this.cardPower = 2; break;
 				case HVACard.DEFENDER:
-					this.cardPower = 3; break;
+					this.currentPower = this.cardPower = 3; break;
 			}
+		}
+		
+		public function boostPower(powerCard:PowerCard):void {
+			this.currentPower = this.cardPower + powerCard.power;
+			//modify card power sprite
+		}
+		
+		public function removeBoost():void {
+			this.currentPower = this.cardPower;
+			//modify card power sprite
 		}
 		
 		

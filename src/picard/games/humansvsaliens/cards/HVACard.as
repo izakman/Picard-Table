@@ -46,5 +46,9 @@ package picard.games.humansvsaliens.cards
 			}
 		}
 		
+		public function get power ():Number {
+			return this.cardPower;
+		}
+		
 	}
 }
