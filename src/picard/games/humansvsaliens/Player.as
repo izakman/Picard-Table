@@ -5,13 +5,13 @@ package picard.games.humansvsaliens
 	
 	public class Player extends EventDispatcher {
 		
-		private var _side:Side;
+		private var _side:String;
 		
-		public function Player(side:Side) {
+		public function Player(side:String) {
 			this._side = side;
 		}
 		
-		public function get side():Side {
+		public function get side():String {
 			return this._side;
 		}
 	}

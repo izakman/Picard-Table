@@ -20,8 +20,9 @@ package {
 		private var isFullscreen:Boolean = false;
 		
 		public function PicardTable () {
-			
-			this.addChild(new HVATable());
+			var gameTable:GameTable = new HVATable();
+			Global.vars.gameTable = gameTable;
+			this.addChild(gameTable);
 			//this.addChild(new CAKE());
 			stage.addEventListener(MouseEvent.CLICK, toggleFullscreen);
 		}

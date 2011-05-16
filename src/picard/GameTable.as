@@ -9,11 +9,15 @@ package picard
 	import flash.utils.Dictionary;
 	
 	import picard.events.CardEvent;
+	import picard.games.humansvsaliens.cards.HVACard;
 		
 	/**
 	 * The base class for every game.  Shouldn't be instantiated on its own.
 	 */
 	public class GameTable extends Sprite {
+		
+		public static const TABLE_WIDTH:Number = 960;
+		public static const TABLE_HEIGHT:Number = 600;
 		
 		protected var flarConfigFile:String = "../resources/flarConfig.xml"; // url to config file for flarmanager
 		protected var flarManager:FLARManager;
@@ -55,6 +59,7 @@ package picard
 			this.addChild(event.card);
 			this.cardsInPlay[event.card.id] = event.card;
 			trace("<< Card", event.card.id, "added >>");
+			trace("  << Card is", event.card.side);
 		}
 		
 		private function cardRemoved(event:CardEvent):void {

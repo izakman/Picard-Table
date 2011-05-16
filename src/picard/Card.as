@@ -5,6 +5,7 @@ package picard
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.Timer;
+	
 	import picard.timers.CardTimer;
 
 	public class Card extends Sprite {
@@ -14,6 +15,7 @@ package picard
 		
 		protected var cardID:Number;
 		protected var cardType:Number;
+		protected var cardSide:String;
 		
 		public var isToBeRemoved:Boolean = false;
 		public var removalTimer:CardTimer = null;
@@ -22,8 +24,11 @@ package picard
 		public function Card(cardMarker:FLARMarker, cardID:Number) {
 			this.cardMarker = cardMarker;
 			this.cardID = cardID;
+			this.cardType = cardMarker.patternId;
 			this.updateLocation();
-			this.addSprite();
+			
+			this.cardSide = this.determinSide();
+			this.drawCard();
 			this.addEventListener(Event.ENTER_FRAME, enterFrame);
 			this.addEventListener(Event.REMOVED_FROM_STAGE, onRemoved);
 		}
@@ -45,21 +50,33 @@ package picard
 			return this.cardID;
 		}
 		
-		private function onRemoved(e:Event):void {
+		public function get side():String {
+			return this.cardSide;
+		}
+		
+		protected function onRemoved(e:Event):void {
 			this.removeEventListener(Event.ENTER_FRAME, enterFrame);
 		}
 		
-		private function enterFrame(e:Event):void {
+		protected function enterFrame(e:Event):void {
 			updateLocation();
 		}
 		
-		private function updateLocation():void {
+		protected function updateLocation():void {
 			this.x = this.cardMarker.centerpoint.x;
 			this.y = this.cardMarker.centerpoint.y;
 			this.rotation = this.cardMarker.rotationZ;
 		}
 		
-		protected function addSprite():void {
+		protected function determinSide():String {
+			if (this.x < GameTable.TABLE_WIDTH/2) {
+				return "left";
+			} else {
+				return "right";
+			}
+		}
+		
+		protected function drawCard():void {
 			this.cardSprite = new Sprite();
 			var pieceSize:int = 40;
 			this.cardSprite.graphics.beginFill(0x00FF00);
