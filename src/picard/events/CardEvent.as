@@ -9,6 +9,8 @@ package picard.events
 		public static const ADDED:String = "cardAdded";
 		public static const UPDATED:String = "cardUpdated";
 		public static const REMOVED:String = "cardRemoved";
+		public static const ACTIVATED:String = "cardActivated";
+		public static const DEACTIVATED:String = "cardDeactivated";
 		
 		private var _card:Card;
 		
