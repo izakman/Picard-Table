@@ -28,7 +28,21 @@ package picard.games.humansvsaliens.cards
 		}
 		
 		private function checkProximity():void {
-			//TODO
+			var sideCards:Array = new Array();
+			for each (var card:HVACard in Global.vars.gameTable.cardsInPlay) {
+				if (this.side == card.side && card is ShipCard) {
+					sideCards.push({card:card, distance:GameTable.distanceBetweenCards(this, card)});
+				}
+			}
+			if (sideCards.length > 0) {
+				sideCards.sortOn("distance");
+				if (sideCards[0] != this.shipBoosted) {
+					if (this.shipBoosted) {
+						this.disablePowerBoost();
+					}
+					this.activatePowerBoost(sideCards[0]);
+				}
+			}
 		}
 		
 		public function activatePowerBoost(card:ShipCard):void {
