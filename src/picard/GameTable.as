@@ -25,7 +25,7 @@ package picard
 		protected var flarManager:FLARManager;
 		protected var cardHandler:CardHandler;
 		
-		protected var cardsInPlay:Dictionary;
+		public var cardsInPlay:Dictionary;
 		
 		protected var showSource:Boolean = true;
 		protected var sourceAlpha:Number = 0.5;

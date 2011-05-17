@@ -2,6 +2,8 @@ package picard.games.humansvsaliens.cards
 {
 	import com.transmote.flar.marker.FLARMarker;
 	
+	import flash.events.Event;
+	
 	public class ShipCard extends HVACard {
 		
 		public var currentPower:Number;
@@ -34,8 +36,8 @@ package picard.games.humansvsaliens.cards
 			//modify card power sprite
 		}
 		
-		override public function cleanUp():void {
-			super.cleanUp();
+		override public function cleanUp(e:Event):void {
+			super.cleanUp(e);
 			if (this.powerBooster) {
 				this.powerBooster.disablePowerBoost();
 			}

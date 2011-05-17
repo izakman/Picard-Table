@@ -82,7 +82,7 @@ package picard
 			this.addChild(cardSprite);
 		}
 		
-		public function cleanUp():void {
+		public function cleanUp(e:Event):void {
 			this.removeEventListener(Event.ENTER_FRAME, enterFrame);
 		}
 		

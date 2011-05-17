@@ -65,8 +65,8 @@ package picard.games.humansvsaliens.cards
 			//remove graphics
 		}
 		
-		override public function cleanUp():void {
-			super.cleanUp();
+		override public function cleanUp(e:Event):void {
+			super.cleanUp(e);
 			if (this.shipBoosted) {
 				this.disablePowerBoost();
 			}
