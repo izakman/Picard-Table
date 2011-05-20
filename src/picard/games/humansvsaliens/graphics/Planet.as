@@ -1,66 +1,88 @@
 package picard.games.humansvsaliens.graphics
-
 {
-	import picard.games.humansvsaliens.graphics.*;
+	import away3dlite.core.utils.Cast;
+	import away3dlite.materials.BitmapMaterial;
+	import away3dlite.materials.Material;
+	import away3dlite.primitives.Sphere;
 	
+	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
-	import org.osmf.events.TimeEvent;
-	import org.papervision3d.core.math.Matrix3D;
-	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.objects.parsers.DAE;
-	import org.papervision3d.scenes.Scene3D;
-	
-	public class Planet extends DisplayObject3D
-	{
+	public class Planet extends Sphere {
 		
-		private var _source:String;
-		private var _model:DAE;
-		private var _rotationTimer:Timer = new Timer(30);
+		public static const HUMAN:String = "left";
+		public static const ALIEN:String = "right";
 		
-		public function Planet(source:String)
-		{
-			super();
-			_source = source;
-			setupPlanet();
-			_rotationTimer.addEventListener(TimerEvent.TIMER,rotatePlanet);
+		[Embed(source="resources/humansvsaliens/assets/earth512.png")]
+		private var humanBitmap:Class;
+		
+		[Embed(source="resources/humansvsaliens/assets/earth512.png")]
+		private var humanDamBitmap:Class;
+		
+		[Embed(source="resources/humansvsaliens/assets/cracks.jpg")]
+		private var alienBitmap:Class;
+		
+		[Embed(source="resources/humansvsaliens/assets/cracks.jpg")]
+		private var alienDamBitmap:Class;
+		
+		private const SEGMENTS_WIDTH:Number = 64;
+		private const SEGMENTS_HIGHT:Number = 32;
+		private const RADIUS:Number = 150;
+		
+		private const ROTATION_SPEED:Number = 30;
+		private const POSITION_FROM_CENTRE:Number = 280;
+		//private const POSITION_DEPTH:Number = 280;
+		
+		private var _material:BitmapMaterial;
+		private var _type:String;
+		private var _damaged:Boolean;
+		private var _rotationTimer:Timer;
+		
+		public function Planet(type:String, damaged:Boolean) {
+			_type = type;
+			_damaged = damaged;
+			this.setMaterial();
+			this.radius = RADIUS;
+			this.segmentsW = SEGMENTS_WIDTH;
+			this.segmentsH = SEGMENTS_HIGHT;
+			
+			this.positionPlanet();
+			_rotationTimer = new Timer(ROTATION_SPEED);
+			_rotationTimer.addEventListener(TimerEvent.TIMER, rotatePlanet);
 			_rotationTimer.start();
 		}
 		
-		private function rotatePlanet(e:TimerEvent):void {
-			this.rotationX +=1;
-			this.rotationY +=1;
-			CAKE.renderEngine.render();
-		}
-		
-		private function setupPlanet():void {
-			_model = new DAE(true, "model", true);
-			_model.load(_source);
-			addChild(_model);
-		}
-		
-		public function positionPlanet(planet:String):void {
-			if(planet == "1") {
-				_model.rotationX = 90;
-				_model.rotationZ = -90;
-				//_model.moveForward(12);
-				_model.scale = 45;
-				
-				this.x = -119.052490234375;
-				this.y = 0;
-				this.z = 174.7154083251953;
-				
+		private function setMaterial():void {
+			var texture:Class;
+			if (_type == HUMAN) {
+				if (_damaged) {
+					texture = humanDamBitmap;
+				} else {
+					texture = humanBitmap;
+				}
 			} else {
-				_model.rotationX = 90;
-				_model.rotationZ = -90;
-				//_model.moveForward(12);
-				_model.scale = 45;
-				
-				this.x = 119.052490234375;
-				this.y = 0;
-				this.z = 174.7154083251953;
+				if (_damaged) {
+					texture = alienDamBitmap;
+				} else {
+					texture = alienBitmap;
+				}
+			}
+			this.material = new BitmapMaterial(Cast.bitmap(texture));
+		}
+		
+		private function positionPlanet():void {
+			if(_type == HUMAN) {
+				this.x = -POSITION_FROM_CENTRE;
+			} else {
+				this.x = POSITION_FROM_CENTRE;
 			}
 		}
+		
+		private function rotatePlanet(e:Event):void  {
+			this.rotationX += 0.1;
+			this.rotationZ += 0.1;
+		}
+		
 	}
 }

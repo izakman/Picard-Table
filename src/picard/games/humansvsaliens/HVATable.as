@@ -6,6 +6,7 @@ package picard.games.humansvsaliens
 	import picard.events.StateEvent;
 	import picard.games.humansvsaliens.HVACardFactory;
 	import picard.games.humansvsaliens.cards.HVACard;
+	import picard.games.humansvsaliens.graphics.Background;
 	import picard.games.humansvsaliens.states.SetupPhase;
 
 	/**
@@ -21,9 +22,9 @@ package picard.games.humansvsaliens
 		private var planetHealth:Dictionary;
 		
 		public function HVATable() {
-			this.flarConfigFile = "../resources/humansvsaliens/flarConfig.xml";
+			this.flarConfigFile = "resources/humansvsaliens/flarConfig.xml";
 			this.cardFactory = new HVACardFactory();
-			this.showSource = true;
+			this.showSource = false;
 			this.sourceAlpha = 1;
 			
 			this.player1 = new Player(Side.HUMAN);
@@ -31,6 +32,10 @@ package picard.games.humansvsaliens
 			this.planetHealth = new Dictionary();
 			this.planetHealth[player1] = PLANET_HEALTH;
 			this.planetHealth[player2] = PLANET_HEALTH;
+		}
+		
+		override protected function addBackground():void {
+			this.addChild(new Background());
 		}
 		
 //		override protected function startGame():void {

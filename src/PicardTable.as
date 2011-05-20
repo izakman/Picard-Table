@@ -6,7 +6,7 @@ package {
 	
 	import picard.GameTable;
 	import picard.games.humansvsaliens.HVATable;
-	import picard.games.humansvsaliens.graphics.CAKE;
+	import picard.games.humansvsaliens.graphics.Background;
 	
 	[SWF(width="960", height="600", frameRate="30", backgroundColor="#000000")]
 	/**
@@ -23,7 +23,7 @@ package {
 			var gameTable:GameTable = new HVATable();
 			Global.vars.gameTable = gameTable;
 			this.addChild(gameTable);
-			//this.addChild(new CAKE());
+//			this.addChild(new Background());
 			stage.addEventListener(MouseEvent.CLICK, toggleFullscreen);
 		}
 		
