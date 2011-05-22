@@ -42,10 +42,10 @@
 			<!-- list of file paths of patterns for FLARToolkit to detect. -->
 			<!-- @resolution specifies the resolution at which the patterns were generated. -->
 			<patterns resolution="8" patternToBorderRatioX="50" patternToBorderRatioY="50" minConfidence="0.6" >
+				<pattern path="./resources/humansvsaliens/patterns/pat8/ship1.pat" />
+				<pattern path="./resources/humansvsaliens/patterns/pat8/ship2.pat" />
+				<pattern path="./resources/humansvsaliens/patterns/pat8/ship3.pat" />
 				<pattern path="./resources/humansvsaliens/patterns/pat8/patt001.pat" />
-				<pattern path="./resources/humansvsaliens/patterns/pat8/patt003.pat" />
-				<pattern path="./resources/humansvsaliens/patterns/pat8/patt004.pat" />
-				<pattern path="./resources/humansvsaliens/patterns/pat8/patt005.pat" />
 				<pattern path="./resources/humansvsaliens/patterns/pat8/patt002.pat" />
 			</patterns>
 			
