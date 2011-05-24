@@ -15,12 +15,6 @@ package picard.games.humansvsaliens.cards
 	import picard.events.CardEvent;
 	
 	public class PowerCard extends HVACard {
-//		
-//		[Embed(source="resources/humansvsaliens/assets/ships/Power_Boost_1.swf")]
-//		private var PowerBoost1:Class;
-//		
-//		[Embed(source="resources/humansvsaliens/assets/ships/Power_Boost_2.swf")]
-//		private var PowerBoost2:Class;
 		
 		public var shipBoosted:ShipCard = null;
 		private var checkTimer:Timer = new Timer(1000);
@@ -36,26 +30,13 @@ package picard.games.humansvsaliens.cards
 			this.addEventListener(Event.ADDED_TO_STAGE, this.addedToStage);
 		}
 		
-//		override protected function drawCard():void {
-//			var sprite:MovieClipLoaderAsset = (this.cardPower == 1) ? new PowerBoost1() : new PowerBoost2();
-//			sprite.addEventListener(
-//			this.cardSprite = sprite;
-//			
-//			this.addChild(this.cardSprite);
-//		}
-		
 		private function addedToStage(e:Event):void {
 			this.checkTimer.start();
 			this.checkTimer.addEventListener(TimerEvent.TIMER, this.checkProximity);
 		}
 		
-//		override protected function enterFrame(e:Event):void {
-//			super.enterFrame(e);
-//			this.checkProximity();
-//		}
-		
 		private function checkProximity(e:TimerEvent):void {
-			trace("--------------------- timer");
+			//trace("--------------------- timer");
 			var sideCards:Array = new Array();
 			for each (var card:HVACard in Global.vars.gameTable.cardsInPlay) {
 				if (this.side == card.side && card is ShipCard) {
