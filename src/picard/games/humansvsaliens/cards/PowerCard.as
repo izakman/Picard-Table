@@ -27,10 +27,10 @@ package picard.games.humansvsaliens.cards
 				case HVACard.POWERBOOST2:
 					this.cardPower = 2; break;
 			}
-			this.addEventListener(Event.ADDED_TO_STAGE, this.addedToStage);
 		}
 		
-		private function addedToStage(e:Event):void {
+		override protected function addedToStage(e:Event):void {
+			super.addedToStage(e);
 			this.checkTimer.start();
 			this.checkTimer.addEventListener(TimerEvent.TIMER, this.checkProximity);
 		}
