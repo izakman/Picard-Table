@@ -3,14 +3,27 @@ package picard.games.humansvsaliens.cards
 	import com.transmote.flar.marker.FLARMarker;
 	
 	import flash.events.Event;
+	import flash.events.TimerEvent;
 	import flash.utils.Dictionary;
+	import flash.utils.Timer;
+	
+	import mx.core.MovieClipLoaderAsset;
+	
+	import org.osmf.events.TimeEvent;
 	
 	import picard.GameTable;
 	import picard.events.CardEvent;
 	
 	public class PowerCard extends HVACard {
+//		
+//		[Embed(source="resources/humansvsaliens/assets/ships/Power_Boost_1.swf")]
+//		private var PowerBoost1:Class;
+//		
+//		[Embed(source="resources/humansvsaliens/assets/ships/Power_Boost_2.swf")]
+//		private var PowerBoost2:Class;
 		
 		public var shipBoosted:ShipCard = null;
+		private var checkTimer:Timer = new Timer(1000);
 		
 		public function PowerCard(marker:FLARMarker, cardID:Number) {
 			super(marker, cardID);
@@ -20,14 +33,29 @@ package picard.games.humansvsaliens.cards
 				case HVACard.POWERBOOST2:
 					this.cardPower = 2; break;
 			}
+			this.addEventListener(Event.ADDED_TO_STAGE, this.addedToStage);
 		}
 		
-		override protected function enterFrame(e:Event):void {
-			super.enterFrame(e);
-			this.checkProximity();
+//		override protected function drawCard():void {
+//			var sprite:MovieClipLoaderAsset = (this.cardPower == 1) ? new PowerBoost1() : new PowerBoost2();
+//			sprite.addEventListener(
+//			this.cardSprite = sprite;
+//			
+//			this.addChild(this.cardSprite);
+//		}
+		
+		private function addedToStage(e:Event):void {
+			this.checkTimer.start();
+			this.checkTimer.addEventListener(TimerEvent.TIMER, this.checkProximity);
 		}
 		
-		private function checkProximity():void {
+//		override protected function enterFrame(e:Event):void {
+//			super.enterFrame(e);
+//			this.checkProximity();
+//		}
+		
+		private function checkProximity(e:TimerEvent):void {
+			trace("--------------------- timer");
 			var sideCards:Array = new Array();
 			for each (var card:HVACard in Global.vars.gameTable.cardsInPlay) {
 				if (this.side == card.side && card is ShipCard) {
@@ -36,11 +64,11 @@ package picard.games.humansvsaliens.cards
 			}
 			if (sideCards.length > 0) {
 				sideCards.sortOn("distance");
-				if (sideCards[0] != this.shipBoosted) {
+				if (sideCards[0].card != this.shipBoosted) {
 					if (this.shipBoosted) {
 						this.disablePowerBoost();
 					}
-					this.activatePowerBoost(sideCards[0]);
+					this.activatePowerBoost(sideCards[0].card);
 				}
 			}
 		}
@@ -70,6 +98,8 @@ package picard.games.humansvsaliens.cards
 			if (this.shipBoosted) {
 				this.disablePowerBoost();
 			}
+			this.checkTimer.removeEventListener(TimerEvent.TIMER, this.checkProximity);
+			this.checkTimer.stop();
 		}
 		
 		
