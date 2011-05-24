@@ -7,8 +7,6 @@ package picard.games.humansvsaliens.graphics
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
-	import net.hires.debug.Stats;
-	
 	public class Background extends Sprite {
 		
 		private var scene:Scene3D;
@@ -27,7 +25,6 @@ package picard.games.humansvsaliens.graphics
 			setupPlanets();
 			
 			addChild(view);
-			addChild(new Stats());
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}

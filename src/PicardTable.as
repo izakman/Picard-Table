@@ -4,9 +4,10 @@ package {
 	import flash.display.StageDisplayState;
 	import flash.events.MouseEvent;
 	
+	import net.hires.debug.Stats;
+	
 	import picard.GameTable;
 	import picard.games.humansvsaliens.HVATable;
-	import picard.games.humansvsaliens.graphics.Background;
 	
 	[SWF(width="960", height="600", frameRate="30", backgroundColor="#000000")]
 	/**
@@ -17,13 +18,16 @@ package {
 	 */
 	public class PicardTable extends Sprite {
 		
+		private const CAMERA:Number = 0;
 		private var isFullscreen:Boolean = false;
 		
 		public function PicardTable () {
-			var gameTable:GameTable = new HVATable();
+			var gameTable:GameTable = new HVATable(CAMERA);
 			Global.vars.gameTable = gameTable;
+			
 			this.addChild(gameTable);
-//			this.addChild(new Background());
+			this.addChild(new Stats());
+			
 			stage.addEventListener(MouseEvent.CLICK, toggleFullscreen);
 		}
 		

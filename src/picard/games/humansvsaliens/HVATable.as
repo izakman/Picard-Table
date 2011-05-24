@@ -4,10 +4,7 @@ package picard.games.humansvsaliens
 	
 	import picard.GameTable;
 	import picard.events.StateEvent;
-	import picard.games.humansvsaliens.HVACardFactory;
-	import picard.games.humansvsaliens.cards.HVACard;
 	import picard.games.humansvsaliens.graphics.Background;
-	import picard.games.humansvsaliens.states.SetupPhase;
 
 	/**
 	 * The GameTable for the Humans vs Aliens card game.
@@ -21,7 +18,8 @@ package picard.games.humansvsaliens
 		
 		private var planetHealth:Dictionary;
 		
-		public function HVATable() {
+		public function HVATable(camera:Number) {
+			super(camera);
 			this.flarConfigFile = "resources/humansvsaliens/flarConfig.xml";
 			this.cardFactory = new HVACardFactory();
 			this.showSource = false;

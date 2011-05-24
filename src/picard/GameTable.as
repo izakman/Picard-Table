@@ -2,6 +2,7 @@ package picard
 {
 	import com.transmote.flar.FLARManager;
 	import com.transmote.flar.marker.FLARMarker;
+	import com.transmote.flar.source.FLARCameraSource;
 	import com.transmote.flar.tracker.FLARToolkitManager;
 	import com.transmote.utils.time.FramerateDisplay;
 	
@@ -11,7 +12,6 @@ package picard
 	import flash.utils.getQualifiedClassName;
 	
 	import picard.events.CardEvent;
-	import picard.games.humansvsaliens.cards.HVACard;
 		
 	/**
 	 * The base class for every game.  Shouldn't be instantiated on its own.
@@ -32,10 +32,13 @@ package picard
 		
 		protected var cardFactory:ICardFactory;
 		
+		private var _camera:Number;
+		
 		/**
 		 * Constructs a new GameTable.
 		 */
-		public function GameTable() {
+		public function GameTable(camera:Number) {
+			this._camera = camera;
 			this.addEventListener(Event.ADDED_TO_STAGE, this.init);
 			this.cardsInPlay = new Dictionary();
 			this.addBackground();
@@ -51,6 +54,8 @@ package picard
 		private function init(event:Event):void {
 			this.removeEventListener(Event.ADDED_TO_STAGE, this.init);
 			this.flarManager = new FLARManager(flarConfigFile, new FLARToolkitManager(), this.stage);
+			FLARCameraSource(this.flarManager.flarSource).cameraIndex = _camera; 
+			
 			if (showSource) this.addSource();
 			
 			this.cardHandler = new CardHandler(this.cardFactory, this.flarManager);
