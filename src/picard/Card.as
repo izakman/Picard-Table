@@ -2,6 +2,7 @@ package picard
 {
 	import com.transmote.flar.marker.FLARMarker;
 	
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.Timer;
@@ -10,8 +11,10 @@ package picard
 
 	public class Card extends Sprite {
 		
+		//private const GLITCH_RADIUS:Number = 50;
+		
 		protected var cardMarker:FLARMarker;
-		protected var cardSprite:Sprite;
+		protected var cardSprite:DisplayObject;
 		
 		protected var cardID:Number;
 		protected var cardType:Number;
@@ -26,11 +29,12 @@ package picard
 			this.cardID = cardID;
 			this.cardType = cardMarker.patternId;
 			this.updateLocation();
-			
 			this.cardSide = this.determinSide();
-			this.drawCard();
+			
+			//this.drawCard();
 			this.addEventListener(Event.ENTER_FRAME, this.enterFrame);
 			this.addEventListener(Event.REMOVED_FROM_STAGE, this.cleanUp);
+			this.addEventListener(Event.ADDED_TO_STAGE, this.addedToStage);
 		}
 		
 		public function replaceMarker(marker:FLARMarker):void {
@@ -55,7 +59,9 @@ package picard
 		}
 		
 		protected function enterFrame(e:Event):void {
-			updateLocation();
+			//if (!hasMarkerGlitched()) {
+				updateLocation();
+			//}
 		}
 		
 		protected function updateLocation():void {
@@ -73,17 +79,26 @@ package picard
 		}
 		
 		protected function drawCard():void {
-			this.cardSprite = new Sprite();
+			var sprite:Sprite = new Sprite();
 			var pieceSize:int = 40;
-			this.cardSprite.graphics.beginFill(0x00FF00);
-			this.cardSprite.graphics.drawRoundRect(0, 0, pieceSize, pieceSize, 5);
-			this.cardSprite.x = 0-(pieceSize/2);
-			this.cardSprite.y = 0-(pieceSize/2);
-			this.addChild(cardSprite);
+			sprite.graphics.beginFill(0x00FF00);
+			sprite.graphics.drawRoundRect(0, 0, pieceSize, pieceSize, 5);
+			sprite.x = 0-(pieceSize/2);
+			sprite.y = 0-(pieceSize/2);
+			this.cardSprite = sprite;
+			this.addChild(this.cardSprite);
+		}
+		
+		protected function addedToStage(e:Event):void {
+			drawCard();
 		}
 		
 		public function cleanUp(e:Event):void {
 			this.removeEventListener(Event.ENTER_FRAME, enterFrame);
+		}
+		
+		private function hasMarkerGlitched():Boolean {
+			return false;
 		}
 		
 	}

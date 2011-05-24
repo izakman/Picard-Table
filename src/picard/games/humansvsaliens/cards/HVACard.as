@@ -8,6 +8,7 @@ package picard.games.humansvsaliens.cards
 	import picard.GameTable;
 	import picard.ICardFactory;
 	import picard.games.humansvsaliens.Side;
+	import picard.games.humansvsaliens.graphics.CardSprite;
 	
 	public class HVACard extends Card {
 		
@@ -25,17 +26,8 @@ package picard.games.humansvsaliens.cards
 		}
 		
 		override protected function drawCard():void {
-			this.cardSprite = new Sprite();
-			var pieceSize:int = 40;
-			this.cardSprite.graphics.beginFill(0x2222FF);
-			this.cardSprite.graphics.moveTo(pieceSize/2, pieceSize);
-			this.cardSprite.graphics.lineTo(0, 0);
-			this.cardSprite.graphics.lineTo(pieceSize, 0);
-			this.cardSprite.graphics.lineTo(pieceSize/2, pieceSize);
-			this.cardSprite.graphics.endFill();
-			this.cardSprite.x = 0-(pieceSize/2);
-			this.cardSprite.y = 0-(pieceSize/2);
-			this.addChild(cardSprite);
+			this.cardSprite = new CardSprite(this);
+			this.addChild(this.cardSprite);
 		}
 		
 		override protected function determinSide():String {
