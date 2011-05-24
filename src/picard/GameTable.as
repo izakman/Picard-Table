@@ -65,14 +65,14 @@ package picard
 		private function cardAdded(event:CardEvent):void {
 			this.addChild(event.card);
 			this.cardsInPlay[event.card.id] = event.card;
-			trace("<< Card", event.card.id, "added >>");
-			trace("   >> Card is a ", event.card.side, getQualifiedClassName(event.card));
+			trace("[[ Card", event.card.id, "placed ]]");
+			trace("   -- Card is a ", event.card.side, getQualifiedClassName(event.card));
 		}
 		
 		private function cardRemoved(event:CardEvent):void {
 			this.removeChild(event.card);
 			delete this.cardsInPlay[event.card.id];
-			trace("<< Card", event.card.id, "removed >>");
+			trace("[[ Card", event.card.id, "removed ]]");
 		}
 		
 		protected function startGame():void {

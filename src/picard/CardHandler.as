@@ -57,7 +57,7 @@ package picard
 		}
 		
 		private function onMarkerAdded(event:FLARMarkerEvent):void {
-			trace("adding");
+			//trace("adding");
 			//get the card if a card pending removal is within the time and range allowed
 			var card:Card = isCardStillOnTable(event.marker);
 			if (card == null) {
@@ -67,7 +67,7 @@ package picard
 				card.placementTimer.addEventListener(TimerEvent.TIMER, cardAdded);
 				card.placementTimer.start();
 				this.cardsPendingPlacement[event.marker] = card;
-				trace("|| Card", card.id, "["+card.marker.sessionId+"]", "pending placement");
+				//trace("|| Card", card.id, "["+card.marker.sessionId+"]", "pending placement");
 			} else {
 				//replace marker within card
 				var oldMarker:FLARMarker = card.marker;
@@ -77,24 +77,24 @@ package picard
 				delete this.markersInPlay[oldMarker]; //delete existing marker from play
 				this.markersInPlay[newMarker] = card; //add new marker to play
 				card.replaceMarker(newMarker);
-				trace("|| Card", card.id, "["+card.marker.sessionId+"]", "marker replaced");
+				//trace("|| Card", card.id, "["+card.marker.sessionId+"]", "marker replaced");
 			}
 		}
 		
 		private function onMarkerRemoved(event:FLARMarkerEvent):void {
-			trace("removing");
+			//trace("removing");
 			var card:Card = this.cardsPendingPlacement[event.marker];
 			if(card){
 				card.placementTimer.stop();
 				delete this.cardsPendingPlacement[event.marker];
-				trace("|| Card", card.id, "["+card.marker.sessionId+"]", "removed from pending placement");
+				//trace("|| Card", card.id, "["+card.marker.sessionId+"]", "removed from pending placement");
 			} else {
 				card = this.markersInPlay[event.marker];
 				card.removalTimer = new CardTimer(card, REMOVAL_DELAY, 1);
 				card.removalTimer.addEventListener(TimerEvent.TIMER, cardRemoved);
 				card.removalTimer.start();
 				this.cardsPendingRemoval[event.marker] = card;
-				trace("|| Card", card.id, "["+card.marker.sessionId+"]", "pending removal");
+				//trace("|| Card", card.id, "["+card.marker.sessionId+"]", "pending removal");
 			}
 		}
 		
